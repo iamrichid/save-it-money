@@ -11,27 +11,6 @@ interface AnalyticsScreenProps {
   onNavigate: (screen: AppScreen) => void;
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-white dark:bg-surface-dark p-3 rounded-xl shadow-xl border border-black/5 dark:border-white/10 backdrop-blur-md">
-        <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">{label}</p>
-        <div className="space-y-1">
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-[10px] font-bold text-slate-500 uppercase">Budget:</span>
-            <span className="text-xs font-bold text-slate-900 dark:text-white">₵{payload[0].value}</span>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-[10px] font-bold text-primary uppercase">Spent:</span>
-            <span className="text-xs font-black text-primary">₵{payload[1].value}</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
-
 const AnalyticsScreen: React.FC<AnalyticsScreenProps> = ({ salary, categories, transactions, onNavigate }) => {
   const actualSpendPerCategory = categories.map(cat => {
     const total = transactions
@@ -71,11 +50,11 @@ const AnalyticsScreen: React.FC<AnalyticsScreenProps> = ({ salary, categories, t
           <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-6">Budget vs Actual</h3>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={actualSpendPerCategory} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeights: 700, fill: '#94a3b8' }} />
+              <BarChart data={actualSpendPerCategory}>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8' }} />
                 <Tooltip 
-                  cursor={{ fill: 'rgba(0,0,0,0.03)' }} 
-                  content={<CustomTooltip />}
+                  cursor={{ fill: 'transparent' }} 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                 />
                 <Bar dataKey="budget" fill="#e2e8f0" radius={[4, 4, 0, 0]} barSize={20} />
                 <Bar dataKey="actual" fill="#13ec6d" radius={[4, 4, 0, 0]} barSize={20} />

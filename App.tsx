@@ -52,22 +52,22 @@ const App: React.FC = () => {
     setState(prev => ({ ...prev, screen }));
   };
 
-  const calculateSuggestedCategories = (totalIncome: number, currentCategories: Category[]) => {
+  // Helper to calculate suggested amounts based on percentages
+  const calculateSuggestedCategories = (salary: number, currentCategories: Category[]) => {
     return currentCategories.map(cat => ({
       ...cat,
-      amount: Math.round((totalIncome * cat.defaultPercentage) / 100)
+      amount: Math.round((salary * cat.defaultPercentage) / 100)
     }));
   };
 
-  const updateIncome = (salary: number, bonus: number, includeBonus: boolean) => {
+  const updateSalary = (salary: number) => {
     setState(prev => {
-      const totalForBudget = salary + (includeBonus ? bonus : 0);
-      const suggestedCategories = calculateSuggestedCategories(totalForBudget, prev.categories);
+      // If we're updating salary, we re-apply the principle-based breakdown
+      // to give the user a fresh starting point based on their new income.
+      const suggestedCategories = calculateSuggestedCategories(salary, prev.categories);
       return { 
         ...prev, 
         salary, 
-        bonus,
-        includeBonus,
         categories: suggestedCategories 
       };
     });
@@ -95,12 +95,8 @@ const App: React.FC = () => {
     return state.categories.reduce((acc, cat) => acc + cat.amount, 0);
   }, [state.categories]);
 
-  // Modified remaining calculation logic
   const remaining = useMemo(() => {
-    const incomeBase = state.salary;
-    const bonusPart = state.includeBonus ? state.bonus : 0;
-    const totalIncome = incomeBase + bonusPart;
-    
+    const totalIncome = state.salary + (state.includeBonus ? state.bonus : 0);
     return totalIncome - totalExpenses;
   }, [state.salary, state.bonus, state.includeBonus, totalExpenses]);
 
@@ -114,12 +110,10 @@ const App: React.FC = () => {
 
         {state.screen === AppScreen.INPUT && (
           <SalaryInputScreen 
-            initialSalary={state.salary || 4500}
-            initialBonus={state.bonus || 0}
-            initialIncludeBonus={state.includeBonus}
+            salary={state.salary || 4500}
             onBack={() => navigateTo(AppScreen.WELCOME)}
-            onContinue={(salary, bonus, include) => {
-              updateIncome(salary, bonus, include);
+            onContinue={(val) => {
+              updateSalary(val);
               navigateTo(AppScreen.DASHBOARD);
             }}
           />
@@ -127,7 +121,7 @@ const App: React.FC = () => {
 
         {state.screen === AppScreen.DASHBOARD && (
           <DashboardScreen 
-            salary={state.salary + (state.includeBonus ? state.bonus : 0)}
+            salary={state.salary}
             categories={state.categories}
             remaining={remaining}
             onEditCategories={() => navigateTo(AppScreen.CATEGORIES)}
@@ -137,7 +131,7 @@ const App: React.FC = () => {
 
         {state.screen === AppScreen.CATEGORIES && (
           <CategoryEditorScreen 
-            salary={state.salary + (state.includeBonus ? state.bonus : 0)}
+            salary={state.salary}
             categories={state.categories}
             onBack={() => navigateTo(AppScreen.DASHBOARD)}
             onUpdate={updateCategories}
@@ -155,7 +149,7 @@ const App: React.FC = () => {
 
         {state.screen === AppScreen.ANALYTICS && (
           <AnalyticsScreen 
-            salary={state.salary + (state.includeBonus ? state.bonus : 0)}
+            salary={state.salary}
             categories={state.categories}
             transactions={state.transactions}
             onNavigate={navigateTo}
@@ -170,6 +164,7 @@ const App: React.FC = () => {
           />
         )}
 
+        {/* Home Indicator */}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-black/10 dark:bg-white/10 rounded-full z-50 pointer-events-none" />
       </div>
     </div>
