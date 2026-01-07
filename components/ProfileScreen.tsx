@@ -19,8 +19,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ salary, onNavigate, onRes
   ];
 
   return (
-    <div className="relative flex flex-col h-full w-full bg-background-light dark:bg-background-dark">
-      <header className="px-6 py-10 bg-white dark:bg-surface-dark shadow-sm flex flex-col items-center">
+    <div className="relative flex flex-col h-full w-full bg-transparent">
+      <header className="px-6 py-10 bg-white/10 dark:bg-black/20 backdrop-blur-md border-b border-white/10 shadow-sm flex flex-col items-center">
         <div className="relative mb-4">
           <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center border-4 border-white dark:border-surface-dark shadow-md">
             <span className="material-symbols-outlined text-primary text-5xl">person</span>
@@ -35,10 +35,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ salary, onNavigate, onRes
 
       <main className="flex-1 overflow-y-auto no-scrollbar px-6 py-8 pb-32 space-y-2">
         {menuItems.map((item, idx) => (
-          <button 
-            key={idx} 
+          <button
+            key={idx}
             onClick={item.onClick}
-            className="w-full flex items-center justify-between p-4 bg-white dark:bg-surface-dark rounded-2xl border border-black/5 dark:border-white/5 active:bg-slate-50 dark:active:bg-background-dark transition-colors group"
+            className="w-full flex items-center justify-between p-4 bg-white/60 dark:bg-black/40 backdrop-blur-xl rounded-2xl border border-white/40 dark:border-white/5 active:bg-white/80 dark:active:bg-black/60 transition-colors group hover:bg-white/70 dark:hover:bg-black/50"
           >
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-background-dark flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors">
@@ -54,14 +54,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ salary, onNavigate, onRes
         ))}
 
         <div className="pt-8">
-          <button 
+          <button
             onClick={onReset}
             className="w-full flex items-center justify-center gap-2 p-4 text-red-500 font-black uppercase text-xs tracking-widest hover:bg-red-50 dark:hover:bg-red-900/10 rounded-2xl transition-all"
           >
             <span className="material-symbols-outlined text-lg">delete_forever</span>
             Reset App Data
           </button>
-          <p className="text-center text-[10px] text-slate-400 mt-4 font-bold">SalaryWise Ghana v1.0.4 <br/> Built with ❤️ for the 233</p>
+          <p className="text-center text-[10px] text-slate-400 mt-4 font-bold">SalaryWise Ghana v1.0.4 <br /> Built with ❤️ for the 233</p>
         </div>
       </main>
 
