@@ -65,10 +65,10 @@ const App: React.FC = () => {
       // If we're updating salary, we re-apply the principle-based breakdown
       // to give the user a fresh starting point based on their new income.
       const suggestedCategories = calculateSuggestedCategories(salary, prev.categories);
-      return { 
-        ...prev, 
-        salary, 
-        categories: suggestedCategories 
+      return {
+        ...prev,
+        salary,
+        categories: suggestedCategories
       };
     });
   };
@@ -101,15 +101,19 @@ const App: React.FC = () => {
   }, [state.salary, state.bonus, state.includeBonus, totalExpenses]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-full bg-slate-200 dark:bg-slate-900 md:p-4">
-      <div className="relative w-full max-w-md h-[900px] max-h-screen md:max-h-[900px] bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden md:rounded-[3rem] border-8 border-slate-800 dark:border-slate-700">
-        
+    <div className="min-h-screen w-full bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 dark:from-slate-900 dark:via-emerald-950/30 dark:to-slate-900 text-slate-900 dark:text-slate-50 transition-colors duration-300">
+      {/* Abstract decorative blobs for glassmorphism depth */}
+      <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/20 blur-[100px] pointer-events-none" />
+      <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto min-h-screen relative shadow-sm backdrop-blur-[2px]">
+
         {state.screen === AppScreen.WELCOME && (
           <WelcomeScreen onGetStarted={() => navigateTo(AppScreen.INPUT)} />
         )}
 
         {state.screen === AppScreen.INPUT && (
-          <SalaryInputScreen 
+          <SalaryInputScreen
             salary={state.salary || 4500}
             onBack={() => navigateTo(AppScreen.WELCOME)}
             onContinue={(val) => {
@@ -120,7 +124,7 @@ const App: React.FC = () => {
         )}
 
         {state.screen === AppScreen.DASHBOARD && (
-          <DashboardScreen 
+          <DashboardScreen
             salary={state.salary}
             categories={state.categories}
             remaining={remaining}
@@ -130,7 +134,7 @@ const App: React.FC = () => {
         )}
 
         {state.screen === AppScreen.CATEGORIES && (
-          <CategoryEditorScreen 
+          <CategoryEditorScreen
             salary={state.salary}
             categories={state.categories}
             onBack={() => navigateTo(AppScreen.DASHBOARD)}
@@ -139,7 +143,7 @@ const App: React.FC = () => {
         )}
 
         {state.screen === AppScreen.WALLET && (
-          <WalletScreen 
+          <WalletScreen
             transactions={state.transactions}
             categories={state.categories}
             onNavigate={navigateTo}
@@ -148,7 +152,7 @@ const App: React.FC = () => {
         )}
 
         {state.screen === AppScreen.ANALYTICS && (
-          <AnalyticsScreen 
+          <AnalyticsScreen
             salary={state.salary}
             categories={state.categories}
             transactions={state.transactions}
@@ -157,15 +161,12 @@ const App: React.FC = () => {
         )}
 
         {state.screen === AppScreen.PROFILE && (
-          <ProfileScreen 
+          <ProfileScreen
             onNavigate={navigateTo}
             onReset={resetData}
             salary={state.salary}
           />
         )}
-
-        {/* Home Indicator */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-black/10 dark:bg-white/10 rounded-full z-50 pointer-events-none" />
       </div>
     </div>
   );
