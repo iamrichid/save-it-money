@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import * as Icons from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { Category, AppScreen } from '../types';
 import { getFinancialTip } from '../services/gemini';
@@ -38,11 +39,11 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
     <div className="relative flex flex-col h-full w-full bg-background-light dark:bg-background-dark">
       <header className="flex items-center justify-between px-6 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md sticky top-0 z-50">
         <button className="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-800 dark:text-white transition-colors">
-          <span className="material-symbols-outlined">menu</span>
+          <Icons.Menu className="size-6" />
         </button>
         <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">October Money</h2>
         <button className="p-2 -mr-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-800 dark:text-white transition-colors relative">
-          <span className="material-symbols-outlined">notifications</span>
+          <Icons.Bell className="size-6" />
           <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></span>
         </button>
       </header>
@@ -107,31 +108,34 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
             </button>
           </div>
 
-          {categories.map((cat) => (
-            <div key={cat.id} className="group bg-white dark:bg-surface-dark p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-white/5 active:scale-[0.98] transition-all">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl ${cat.bgColor} ${cat.iconColor} flex items-center justify-center`}>
-                    <span className="material-symbols-outlined">{cat.icon}</span>
+          {categories.map((cat) => {
+            const IconComponent = (Icons as any)[cat.icon] || Icons.HelpCircle;
+            return (
+              <div key={cat.id} className="group bg-white dark:bg-surface-dark p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-white/5 active:scale-[0.98] transition-all">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-xl ${cat.bgColor} ${cat.iconColor} flex items-center justify-center`}>
+                      <IconComponent className="size-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">{cat.name}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{cat.subtext}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">{cat.name}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{cat.subtext}</p>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">GHS {cat.amount}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{((cat.amount / salary) * 100).toFixed(1)}%</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">GHS {cat.amount}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">{((cat.amount / salary) * 100).toFixed(1)}%</p>
+                <div className="w-full bg-slate-100 dark:bg-black/20 rounded-full h-2 overflow-hidden">
+                  <div 
+                    className="h-2 rounded-full" 
+                    style={{ width: `${(cat.amount / salary) * 100}%`, backgroundColor: cat.color }} 
+                  />
                 </div>
               </div>
-              <div className="w-full bg-slate-100 dark:bg-black/20 rounded-full h-2 overflow-hidden">
-                <div 
-                  className="h-2 rounded-full" 
-                  style={{ width: `${(cat.amount / salary) * 100}%`, backgroundColor: cat.color }} 
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
 
           <div className="pt-4 pb-2 text-center px-4">
             <p className="text-xs text-slate-400 italic font-medium">"{tip}"</p>
@@ -143,7 +147,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
         onClick={() => onNavigate(AppScreen.WALLET)}
         className="absolute bottom-24 right-6 w-14 h-14 bg-primary text-slate-900 rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:scale-105 transition-transform z-40"
       >
-        <span className="material-symbols-outlined text-3xl">add</span>
+        <Icons.Plus className="size-8" />
       </button>
 
       <NavigationFooter activeScreen={AppScreen.DASHBOARD} onNavigate={onNavigate} />
