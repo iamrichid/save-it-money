@@ -16,16 +16,15 @@ const NavigationFooter: React.FC<NavigationFooterProps> = ({ activeScreen, onNav
   ];
 
   return (
-    <nav className="h-20 bg-white dark:bg-surface-dark border-t border-slate-100 dark:border-white/5 flex justify-around items-center px-2 pb-2 absolute bottom-0 w-full z-50 shadow-[0_-1px_10px_rgba(0,0,0,0.02)]">
+    <nav className="h-20 bg-white/10 dark:bg-black/20 backdrop-blur-md border-t border-white/10 flex justify-around items-center px-2 pb-2 absolute bottom-0 w-full z-50 shadow-[0_-1px_10px_rgba(0,0,0,0.02)]">
       {navItems.map((item) => {
         const isActive = activeScreen === item.screen;
         return (
-          <button 
+          <button
             key={item.screen}
             onClick={() => onNavigate(item.screen)}
-            className={`flex flex-col items-center gap-1 p-2 transition-all duration-300 ${
-              isActive ? 'text-primary scale-110' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'
-            }`}
+            className={`flex flex-col items-center gap-1 p-2 transition-all duration-300 ${isActive ? 'text-primary scale-110' : 'text-slate-400 dark:text-slate-500 hover:text-slate-600'
+              }`}
           >
             <span className={`material-symbols-outlined ${isActive ? 'fill-current' : ''}`}>
               {item.icon}

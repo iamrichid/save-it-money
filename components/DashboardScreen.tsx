@@ -35,8 +35,8 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
   }
 
   return (
-    <div className="relative flex flex-col h-full w-full bg-background-light dark:bg-background-dark">
-      <header className="flex items-center justify-between px-6 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md sticky top-0 z-50">
+    <div className="relative flex flex-col h-full w-full bg-transparent">
+      <header className="flex items-center justify-between px-6 py-4 bg-white/10 dark:bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <button className="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-slate-800 dark:text-white transition-colors">
           <span className="material-symbols-outlined">menu</span>
         </button>
@@ -49,8 +49,8 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
 
       <main className="flex-1 overflow-y-auto no-scrollbar pb-32">
         <div className="px-6 pt-2 pb-6 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full bg-primary/20 text-primary-dark dark:text-primary border border-primary/30">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full bg-white/30 dark:bg-black/30 backdrop-blur-sm text-primary-dark dark:text-primary border border-white/20 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(19,236,109,0.5)]"></span>
             <span className="text-xs font-bold uppercase tracking-wide">Status: {remaining > 0 ? 'Safe' : 'Watch out'}</span>
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-1">
@@ -78,7 +78,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-            
+
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-slate-400 text-xs font-medium uppercase tracking-wider">Remaining</span>
               <span className="text-2xl font-bold text-slate-800 dark:text-white mt-1">GHS {new Intl.NumberFormat('en-GH').format(remaining)}</span>
@@ -99,7 +99,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
         <div className="px-6 py-6 space-y-4">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Where e go?</h3>
-            <button 
+            <button
               onClick={onEditCategories}
               className="text-sm font-bold text-primary hover:text-primary-dark"
             >
@@ -108,7 +108,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
           </div>
 
           {categories.map((cat) => (
-            <div key={cat.id} className="group bg-white dark:bg-surface-dark p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-white/5 active:scale-[0.98] transition-all">
+            <div key={cat.id} className="group bg-white/60 dark:bg-black/40 backdrop-blur-xl p-4 rounded-2xl shadow-sm border border-white/40 dark:border-white/5 active:scale-[0.98] transition-all hover:bg-white/70 dark:hover:bg-black/50">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-xl ${cat.bgColor} ${cat.iconColor} flex items-center justify-center`}>
@@ -125,9 +125,9 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
                 </div>
               </div>
               <div className="w-full bg-slate-100 dark:bg-black/20 rounded-full h-2 overflow-hidden">
-                <div 
-                  className="h-2 rounded-full" 
-                  style={{ width: `${(cat.amount / salary) * 100}%`, backgroundColor: cat.color }} 
+                <div
+                  className="h-2 rounded-full"
+                  style={{ width: `${(cat.amount / salary) * 100}%`, backgroundColor: cat.color }}
                 />
               </div>
             </div>
@@ -139,7 +139,7 @@ const DashboardScreen: React.FC<DashboardScreenProps> = ({ salary, categories, r
         </div>
       </main>
 
-      <button 
+      <button
         onClick={() => onNavigate(AppScreen.WALLET)}
         className="absolute bottom-24 right-6 w-14 h-14 bg-primary text-slate-900 rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:scale-105 transition-transform z-40"
       >
